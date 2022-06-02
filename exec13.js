@@ -1,7 +1,30 @@
 let todo_list=document.querySelector(".todo-list");
+
+let header=document.createElement("div");
+header.classList.add("header");
+
 let title=document.createElement("h2")
 title.textContent="ToDoList"
-todo_list.appendChild(title);
+ 
+filter=document.createElement("div");
+filter_all=document.createElement("span");
+filter_all.textContent="ALL";
+filter_all.classList.add("filter-all");
+filter_all.classList.add("filter");
+filter_completed=document.createElement("span");
+filter_completed.textContent="Completed";
+filter_completed.classList.add("filter");
+
+filter.appendChild(filter_completed);
+filter.appendChild(filter_all);
+
+header.appendChild(title);
+header.appendChild(filter);
+todo_list.appendChild(header);
+
+
+
+
 
 
 function rendering(post){
