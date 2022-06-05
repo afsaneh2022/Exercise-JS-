@@ -1,62 +1,56 @@
+let fech_list =[];
+
 let todo_list=document.querySelector(".todo-list");
 
-let header=document.createElement("div");
-header.classList.add("header");
-
-let title=document.createElement("h2")
-title.textContent="ToDoList"
- 
-filter=document.createElement("div");
-filter_all=document.createElement("span");
-filter_all.textContent="ALL";
-filter_all.classList.add("filter-all");
-filter_all.classList.add("filter");
-filter_completed=document.createElement("span");
-filter_completed.textContent="Completed";
-filter_completed.classList.add("filter");
-
-filter.appendChild(filter_completed);
-filter.appendChild(filter_all);
-
-header.appendChild(title);
-header.appendChild(filter);
-todo_list.appendChild(header);
-
-
-
-
-
-
 function rendering(post){
-    let container=document.createElement("div");
-    container.classList.add("post");
-       
+    let list= document.querySelector(".list");
+    let list1 =document.createElement("div") ; 
     let to_do=document.createElement("input");
-
     to_do.setAttribute("type","checkbox");
     to_do.setAttribute("id","todo");
     to_do.setAttribute("name","list");
     to_do.setAttribute("value","other");
     to_do.checked=post.completed;
-
     let to_do_lable=document.createElement("label");
-    to_do_lable.setAttribute("for","other");
+    to_do_lable.setAttribute("for","todo");
     to_do_lable.textContent=post.todo;
- 
-  
-    container.appendChild(to_do);
-    container.appendChild(to_do_lable);
-    todo_list.appendChild(container);
-}
+    list1.appendChild(to_do);
+    list1.appendChild(to_do_lable);
+    list.appendChild(list1);
+ }
 
-    
+
 fetch("https://dummyjson.com/todos")
-    .then(function (respons){
-   return respons.json();
+.then(function (respons){
+return respons.json();
+}).then(function (respons){
+    respons.todos.forEach(element => {
+        rendering(element); 
+        fech_list[element.id]=element;
+    });
+})
+let reset= document.querySelector(".list");
+ function reset_page(){
+   reset.innerHTML="";
+ }
 
-    }).then(function (respons){
-        respons.todos.forEach(element => {
-            rendering(element);
-        });
-      
-    })
+
+let filter_click_all=document.querySelector(".filter-all");
+let filter_click_complet=document.querySelector(".filter-completed");
+
+filter_click_complet.addEventListener("click", function onclick_complet(e){
+    reset_page();
+    for (i=1 ;i<=30 ; i++){
+        if (fech_list[i].completed){
+            rendering(fech_list[i]);
+         }
+    }
+     });
+
+ filter_click_all.addEventListener("click", function onclick_all(el){
+    reset_page();
+    for (i=1 ;i<=30 ; i++){
+       rendering(fech_list[i]);
+  
+    }
+ });
